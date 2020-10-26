@@ -1,0 +1,20 @@
+# permissions for end users to view ntps.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: ntp-viewer-role
+rules:
+- apiGroups:
+  - srlinux.henderiw.be
+  resources:
+  - ntps
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - srlinux.henderiw.be
+  resources:
+  - ntps/status
+  verbs:
+  - get

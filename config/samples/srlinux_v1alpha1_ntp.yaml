@@ -1,0 +1,16 @@
+apiVersion: srlinux.henderiw.be/v1alpha1
+kind: Ntp
+metadata:
+  name: ntp-sample
+spec:
+  # Add fields here
+  admin-state: enable
+  network-instance: mgmt
+  server:
+    - address: 193.104.37.238
+      prefer: true
+    - address: 45.87.76.3
+    - address: 185.111.204.220
+    - address: 162.159.200.1
+      
+

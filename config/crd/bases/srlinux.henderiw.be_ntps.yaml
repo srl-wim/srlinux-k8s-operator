@@ -1,0 +1,126 @@
+
+---
+apiVersion: apiextensions.k8s.io/v1beta1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.3.0
+  creationTimestamp: null
+  name: ntps.srlinux.henderiw.be
+spec:
+  group: srlinux.henderiw.be
+  names:
+    kind: Ntp
+    listKind: NtpList
+    plural: ntps
+    singular: ntp
+  scope: Namespaced
+  subresources:
+    status: {}
+  validation:
+    openAPIV3Schema:
+      description: Ntp is the Schema for the ntps API
+      properties:
+        apiVersion:
+          description: 'APIVersion defines the versioned schema of this representation
+            of an object. Servers should convert recognized schemas to the latest
+            internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+          type: string
+        kind:
+          description: 'Kind is a string value representing the REST resource this
+            object represents. Servers may infer this from the endpoint the client
+            submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+          type: string
+        metadata:
+          type: object
+        spec:
+          description: NtpSpec defines the desired state of Ntp
+          properties:
+            admin-state:
+              enum:
+              - enable
+              - disable
+              type: string
+            network-instance:
+              type: string
+            server:
+              items:
+                description: NtpServer defines the NTP server
+                properties:
+                  address:
+                    type: string
+                  iburst:
+                    type: boolean
+                  prefer:
+                    type: boolean
+                required:
+                - address
+                type: object
+              type: array
+          required:
+          - network-instance
+          type: object
+        status:
+          description: NtpStatus defines the observed state of Ntp
+          properties:
+            adminState:
+              description: 'INSERT ADDITIONAL STATUS FIELD - define observed state
+                of cluster Important: Run "make" to regenerate code after modifying
+                this file'
+              enum:
+              - enable
+              - disable
+              type: string
+            networkInstance:
+              type: string
+            operState:
+              enum:
+              - up
+              - down
+              - empty
+              - downloading
+              - booting
+              - starting
+              - failed
+              - synchronizing
+              - upgrading
+              type: string
+            server:
+              items:
+                description: NtpServerState defines the NTP server state
+                properties:
+                  address:
+                    type: string
+                  iBurst:
+                    type: boolean
+                  jitter:
+                    type: string
+                  offset:
+                    type: string
+                  pollInterval:
+                    type: integer
+                  prefer:
+                    type: boolean
+                  stratum:
+                    type: integer
+                required:
+                - address
+                type: object
+              type: array
+            synchronized:
+              type: string
+          required:
+          - networkInstance
+          type: object
+      type: object
+  version: v1alpha1
+  versions:
+  - name: v1alpha1
+    served: true
+    storage: true
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []
