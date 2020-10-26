@@ -29,7 +29,7 @@ import (
 
 	srlinuxv1alpha1 "github.com/srl-wim/srlinux-k8s-operator/api/v1alpha1"
 	"github.com/srl-wim/srlinux-k8s-operator/controllers"
-	gnmiclient "github.com/srl-wim/srlinux-k8s-operator/pkg/gnmi/client"
+	gnmiclient "github.com/srl-wim/srlinux-k8s-operator/pkg/gnmic"
 	// +kubebuilder:scaffold:imports
 )
 

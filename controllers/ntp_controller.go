@@ -30,7 +30,7 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
 	srlinuxv1alpha1 "github.com/srl-wim/srlinux-k8s-operator/api/v1alpha1"
-	gnmiclient "github.com/srl-wim/srlinux-k8s-operator/pkg/gnmi/client"
+	gnmiclient "github.com/srl-wim/srlinux-k8s-operator/pkg/gnmic"
 )
 
 // NtpReconciler reconciles a Ntp object
@@ -73,7 +73,7 @@ func (r *NtpReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	// 	return ctrl.Result{}, client.IgnoreNotFound(err)
 	// }
 
-	path := "/system/ntp/admin-state"
+	path := "/system/ntp"
 	gnmiPath, err := gnmiclient.ParsePath(strings.TrimSpace(path))
 	if err != nil {
 		return ctrl.Result{}, client.IgnoreNotFound(err)
