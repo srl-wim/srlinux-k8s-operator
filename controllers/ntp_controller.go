@@ -30,13 +30,13 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
 	srlinuxv1alpha1 "github.com/srl-wim/srlinux-k8s-operator/api/v1alpha1"
-	gnmiclient "github.com/srl-wim/srlinux-k8s-operator/pkg/gnmic"
+	"github.com/srl-wim/srlinux-k8s-operator/pkg/gnmic"
 )
 
 // NtpReconciler reconciles a Ntp object
 type NtpReconciler struct {
 	client.Client
-	GnmiClient *gnmiclient.GnmiClient
+	GnmiClient *gnmic.GnmiClient
 	Log        logr.Logger
 	Scheme     *runtime.Scheme
 }
@@ -44,6 +44,7 @@ type NtpReconciler struct {
 // +kubebuilder:rbac:groups=srlinux.henderiw.be,resources=ntps,verbs=get;list;watch;create;update;patch;delete
 // +kubebuilder:rbac:groups=srlinux.henderiw.be,resources=ntps/status,verbs=get;update;patch
 
+// Reconcile function
 func (r *NtpReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	ctx := context.Background()
 	log := r.Log.WithValues("ntp", req.NamespacedName)
@@ -74,7 +75,7 @@ func (r *NtpReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	// }
 
 	path := "/system/ntp"
-	gnmiPath, err := gnmiclient.ParsePath(strings.TrimSpace(path))
+	gnmiPath, err := gnmic.ParsePath(strings.TrimSpace(path))
 	if err != nil {
 		return ctrl.Result{}, client.IgnoreNotFound(err)
 	}
@@ -86,7 +87,7 @@ func (r *NtpReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 		JsonIetfVal: bytes.Trim(specBytes, " \r\n\t"),
 	}
 
-	gnmiPrefix, err := gnmiclient.CreatePrefix("", r.GnmiClient.Target)
+	gnmiPrefix, err := gnmic.CreatePrefix("", r.GnmiClient.Target)
 	if err != nil {
 		return ctrl.Result{}, client.IgnoreNotFound(err)
 	}
@@ -112,6 +113,7 @@ func (r *NtpReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	return ctrl.Result{}, nil
 }
 
+// SetupWithManager function
 func (r *NtpReconciler) SetupWithManager(mgr ctrl.Manager) error {
 	return ctrl.NewControllerManagedBy(mgr).
 		For(&srlinuxv1alpha1.Ntp{}).

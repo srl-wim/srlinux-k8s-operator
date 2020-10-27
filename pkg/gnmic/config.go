@@ -1,7 +1,7 @@
 // Copyright (c) Nokia Corporation.
 // Licensed under the MIT License.
 
-package gnmiclient
+package gnmic
 
 import (
 	"bytes"

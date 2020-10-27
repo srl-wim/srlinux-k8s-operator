@@ -1,4 +1,4 @@
-package gnmiclient
+package gnmic
 
 import (
 	"bytes"
